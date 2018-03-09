@@ -1,71 +1,151 @@
-<!-- jquery  -->
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<!DOCTYPE html>
+<html>
 
-<!-- leaflet -->
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<head>
+    <title>d3.js with leaflet.js</title>
 
-<!-- styling -->
-<style type="text/css">
-	#map {
-  width: max-width;
-  height: 500px;
-}
-</style>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: auto;
+            position: relative;
+            width: 960px;
+        }
+    </style>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
 
-<!-- javascript -->
-<script type="text/javascript">
+    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
+    </script>
 
-var map;
-var markerArray = [];
+</head>
 
-$(function() {
-	// create a map in the "map" div, set the view to a given place and zoom
-	map = L.map('map').setView([34,-118], 13);
+<body>
 
-	// add an OpenStreetMap tile layer
-	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-	}).addTo(map);
+    <div id="map" style="width: 600px; height: 400px"></div>
 
-	// map google data
-	getGoogleData();
+    <script type="text/javascript">
 
-});
+        var map = L.map('map').setView([54.775, 2.703], 5);
+        mapLink =
+            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; ' + mapLink + ' Contributors',
+                maxZoom: 18,
+            }).addTo(map);
 
-function getGoogleData()
-{
-	var spreadsheetID = '1iR3yUchfOtYZoCscpnbsaUFWEcGyF9S_GuoA4cOU_oc';
-	var worksheetID = 'od6';
-	var url = 'https://spreadsheets.google.com/feeds/list/'+spreadsheetID+'/'+worksheetID+'/public/values?alt=json';
+        // Initialize the SVG layer
+        map._initPathRoot()
 
-	$.getJSON(url,function(data){
-		$.each(data.feed.entry,function(i,val){
+        // We pick up the SVG from the map object
+        var svg = d3.select("#map").select("svg"),
+            g = svg.append("g");
 
-			// assign parameters for mapping and infowindow
-			// note that this will be different depending on header titles
-			var lng = val.gsx$x.$t;
-			var lat = val.gsx$y.$t;
-			var title = val.gsx$affiliated.$t;
-			var content = val.gsx$notes.$t;
+        d3.json("circles.json", function (collection) {
+            // Add a LatLng object to each item in the dataset
+            collection.objects.forEach(function (d) {
+                d.LatLng = new L.LatLng(d.circle.coordinates[0],
+                    d.circle.coordinates[1])
+            })
 
-			var thisMarker = L.marker([lat,lng]).addTo(map)
-			    .bindPopup('<h2>' + title + '</h2>' + content);
+            var feature = g.selectAll("circle")
+                .data(collection.objects)
+                .enter().append("circle")
+                .style("stroke", "black")
+                .style("opacity", .6)
+                .style("fill", "red")
+                .attr("r", 20);
 
-			// push marker into an array
-			markerArray.push(thisMarker);
+            map.on("viewreset", update);
+            update();
 
-		});
+            function update() {
+                feature.attr("transform",
+                    function (d) {
+                        return "translate(" +
+                            map.latLngToLayerPoint(d.LatLng).x + "," +
+                            map.latLngToLayerPoint(d.LatLng).y + ")";
+                    }
+                )
+            }
+        })
+        
 
-		// put markers into a group to 
-		var group = L.featureGroup(markerArray).addTo(map);
-		map.fitBounds(group.getBounds());
-	})
+        //data for piechart
+        var dataFromYou = [
+            {
+                "name": "Talks",
+                "children": [
+                    {
+                        "name": "talk_1",
+                        "size": 722,
+                        "url": "www.example_1.com"
+                    },
+                    {
+                        "name": "talk_2",
+                        "size": 722,
+                        "url": "www.example_2.com"
+                    },
+                    {
+                        "name": "talk_3",
+                        "size": 722,
+                        "url": "www.example_3.com"
+                    }
+                ]
+            }
+        ];
 
 
-}
+        //***************************************************************************
+        //pie chart test
 
-</script>
+        var data = dataFromYou[0].children;
 
-<div id="map"></div>
+        var width = 800,
+            height = 250,
+            radius = Math.min(width, height) / 2;
+
+        var color = d3.scale.ordinal()
+            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+        var arc = d3.svg.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(radius - 70);
+
+        var pie = d3.layout.pie()
+            .sort(null)
+            .value(function (d) {
+                return d.size;
+            });
+
+        var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var g = svg.selectAll(".arc")
+            .data(pie(data))
+            .enter().append("g")
+            .attr("class", "arc");
+
+        g.append("path")
+            .attr("d", arc)
+            .style("fill", function (d) {
+                return color(d.data.name);
+            });
+
+        g.append("text")
+            .attr("transform", function (d) {
+                return "translate(" + arc.centroid(d) + ")";
+            })
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text(function (d) {
+                return d.data.size;
+            });
+    </script>
+</body>
+
+</html>
