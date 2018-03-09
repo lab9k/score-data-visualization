@@ -1,0 +1,71 @@
+<!-- jquery  -->
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+<!-- leaflet -->
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+<!-- styling -->
+<style type="text/css">
+	#map {
+  width: max-width;
+  height: 500px;
+}
+</style>
+
+<!-- javascript -->
+<script type="text/javascript">
+
+var map;
+var markerArray = [];
+
+$(function() {
+	// create a map in the "map" div, set the view to a given place and zoom
+	map = L.map('map').setView([34,-118], 13);
+
+	// add an OpenStreetMap tile layer
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
+
+	// map google data
+	getGoogleData();
+
+});
+
+function getGoogleData()
+{
+	var spreadsheetID = '1iR3yUchfOtYZoCscpnbsaUFWEcGyF9S_GuoA4cOU_oc';
+	var worksheetID = 'od6';
+	var url = 'https://spreadsheets.google.com/feeds/list/'+spreadsheetID+'/'+worksheetID+'/public/values?alt=json';
+
+	$.getJSON(url,function(data){
+		$.each(data.feed.entry,function(i,val){
+
+			// assign parameters for mapping and infowindow
+			// note that this will be different depending on header titles
+			var lng = val.gsx$x.$t;
+			var lat = val.gsx$y.$t;
+			var title = val.gsx$affiliated.$t;
+			var content = val.gsx$notes.$t;
+
+			var thisMarker = L.marker([lat,lng]).addTo(map)
+			    .bindPopup('<h2>' + title + '</h2>' + content);
+
+			// push marker into an array
+			markerArray.push(thisMarker);
+
+		});
+
+		// put markers into a group to 
+		var group = L.featureGroup(markerArray).addTo(map);
+		map.fitBounds(group.getBounds());
+	})
+
+
+}
+
+</script>
+
+<div id="map"></div>
