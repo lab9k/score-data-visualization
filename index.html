@@ -5,14 +5,8 @@
     <title>d3.js with leaflet.js</title>
 
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
-    <style>
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            margin: auto;
-            position: relative;
-            width: 960px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
@@ -23,8 +17,8 @@
 <body>
 
     <div id="map" style="width: 600px; height: 400px"></div>
-
-    <script type="text/javascript">
+    <script type="text/javascript" src="js/statistics.js"></script>
+    <!-- <script type="text/javascript">
 
         var map = L.map('map').setView([54.775, 2.703], 5);
         mapLink =
@@ -145,7 +139,7 @@
             .text(function (d) {
                 return d.data.size;
             });
-    </script>
+    </script> -->
 </body>
 
 </html>
