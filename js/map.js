@@ -55,6 +55,7 @@ ChartMarker.prototype.draw = function() {
 };
 
 function initializeMap(pieChartData) {
+    const legendPieChart= ['keywords','frequency'];
     //var latLng = new google.maps.LatLng( 40.708762, -74.006731 );
     var AberdeenlatLng = new google.maps.LatLng( 57.1497, 2.09 );
     var AmsterdamlatLng = new google.maps.LatLng( 52.37, 4.8952 );
@@ -76,189 +77,36 @@ function initializeMap(pieChartData) {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
-    //pieChartData
-    //per stad keywords and count in juiste formaat
-/*     //curr format
-    {
-        gent: [ 
-                {
-                    value:"waste",
-                    count: 2
-                },
-                {
-                    value:"waste",
-                    count: 2
-                }
-            ]
-        aberdeen: [
-            {
-                value:"waste",
-                count: 2
-            },
-            {
-                value:"waste",
-                count: 2
-            }
-        ]
-    } */
- 
-    //console.log(pieChartData);
-
-
-
-    // key: [[],[],[]]
-
-/* 
-    arr = [
-        gent: [
-            ["keyword",2],
-            ["keyword",2]
-        ],
-        amsterdam: [
-            ["keyword",2],
-            ["keyword",2]
-        ]
-    ]
-
-    let legendePieChart = ['keywors','frequency'];
-    arr.forEach(element => {
-        var marker = new ChartMarker({
-            map: map,
-            position: AberdeenlatLng,
-            width: h,
-            height: h,
-            chartData: data,
-            chartOptions: options,
-            events: {
-                click: function( event ) {
-                    alert( 'Clicked marker' );
-                }
-            }
-        });
-    }); */
-
-
-     
+    for(let city in pieChartData) {
+        console.log(pieChartData[city]);
+    }
     
-
-    var data = google.visualization.arrayToDataTable([
-        [ 'Task', 'Hours per Day' ],
-        [ 'Work', 11 ],
-        [ 'Eat', 2 ],
-        [ 'Commute', 2 ],
-        [ 'Watch TV', 2 ],
-        [ 'Sleep', 7 ]
-    ]);
-
     var options = {
         fontSize: 8,
         backgroundColor: 'transparent',
         legend: 'none'
     };
     var h ='200px'
-    var marker = new ChartMarker({
-        map: map,
-        position: AberdeenlatLng,
-        width: h,
-        height: h,
-        chartData: data,
-        chartOptions: options,
-        events: {
-            click: function( event ) {
-                alert( 'Clicked marker' );
-            }
-        }
-    });
 
-    var marker = new ChartMarker({
-        map: map,
-        position: HamburglatLng,
-        width: h,
-        height: h,
-        chartData: data,
-        chartOptions: options,
-        events: {
-            click: function( event ) {
-                alert( 'Clicked marker' );
+    for(let city in pieChartData) {
+        let cityData = pieChartData[city];
+        cityData.splice(0,0,legendPieChart);  
+        let dataTableVisualization = google.visualization.arrayToDataTable(cityData);
+
+        var marker = new ChartMarker({
+            map: map,
+            position: AberdeenlatLng,
+            width: h,
+            height: h,
+            chartData: dataTableVisualization,
+            chartOptions: options,
+            events: {
+                click: function( event ) {
+                    alert( 'Clicked marker' );
+                }
             }
-        }
-    });
-    var marker = new ChartMarker({
-        map: map,
-        position: AarhuslatLng,
-        width: h,
-        height: h,
-        chartData: data,
-        chartOptions: options,
-        events: {
-            click: function( event ) {
-                alert( 'Clicked marker' );
-            }
-        }
-    });
-    var marker = new ChartMarker({
-        map: map,
-        position: BradfordlatLng,
-        width: h,
-        height: h,
-        chartData: data,
-        chartOptions: options,
-        events: {
-            click: function( event ) {
-                alert( 'Clicked marker' );
-            }
-        }
-    });
-    var marker = new ChartMarker({
-        map: map,
-        position: BergenlatLng,
-        width: h,
-        height: h,
-        chartData: data,
-        chartOptions: options,
-        events: {
-            click: function( event ) {
-                alert( 'Clicked marker' );
-            }
-        }
-    });
-    var marker = new ChartMarker({
-        map: map,
-        position: GentlatLng,
-        width: h,
-        height: h,
-        chartData: data,
-        chartOptions: options,
-        events: {
-            mouseenter: function( event ) {
-                alert( 'mouse entered' );
-            }
-        }
-    });
-    var marker = new ChartMarker({
-        map: map,
-        position: DordrechtlatLng,
-        width: h,
-        height: h,
-        chartData: data,
-        chartOptions: options,
-        events: {
-            click: function( event ) {
-                alert( 'Clicked marker' );
-            }
-        }
-    });
-    var marker = new ChartMarker({
-        map: map,
-        position: GothenburglatLng,
-        width: h,
-        height: h,
-        chartData: data,
-        chartOptions: options,
-        events: {
-            click: function( event ) {
-                alert( 'Clicked marker' );
-            }
-        }
-    });
+        }); 
+        console.log(city);
+    }
+
 };
