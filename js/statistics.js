@@ -1,11 +1,12 @@
-function createDataVisualizationMap() {
+function getPieChartData() {
     const spreadsheetURL = "https://spreadsheets.google.com/feeds/list/1adKrrgn-KxFe1mWHUXZEDvu23BIzHE2wLk2Y" +
             "fIQjzbM/od6/public/values?alt=json";
     fetch(spreadsheetURL)
         .then(r => r.json())
         .then(function(data) { 
             const pieChartData = transformData(data.feed.entry);
-            initializeMap(pieChartData);
+            //initializeMap(pieChartData);
+            return pieChartData;
         })
         .catch(e => 
             console.log
@@ -57,15 +58,6 @@ function transformData(JSONdata) {
     return pieChartData;
 }
     
-
-
-
-function initializeMap(pieChartData) {
-  
-
-}
-
-
 function compressArray(original) {
 	let compressed = [];
 	// make a copy of the input array

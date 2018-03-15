@@ -54,7 +54,7 @@ ChartMarker.prototype.draw = function() {
     this.chart.draw( this.get('chartData'), this.get('chartOptions') );
 };
 
-function initialize() {
+function initializeMap() {
     //var latLng = new google.maps.LatLng( 40.708762, -74.006731 );
     var AberdeenlatLng = new google.maps.LatLng( 57.1497, 2.09 );
     var AmsterdamlatLng = new google.maps.LatLng( 52.37, 4.8952 );
@@ -199,4 +199,4 @@ function initialize() {
     });
 };
 
-$(initialize);
+$(initializeMap);
