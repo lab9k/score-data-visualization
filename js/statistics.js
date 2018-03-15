@@ -1,4 +1,4 @@
-function getJSONChartData() {
+function createDataVisualizationMap() {
     const spreadsheetURL = "https://spreadsheets.google.com/feeds/list/1adKrrgn-KxFe1mWHUXZEDvu23BIzHE2wLk2Y" +
             "fIQjzbM/od6/public/values?alt=json";
     fetch(spreadsheetURL)
@@ -72,7 +72,6 @@ function compressArray(original) {
 	let copy = original.slice(0);
 	// first loop goes over every element
 	for (let i = 0; i < original.length; i++) {
- 
 		let myCount = 0;	
 		// loop over every element in the copy and see if it's the same
 		for (let w = 0; w < copy.length; w++) {
