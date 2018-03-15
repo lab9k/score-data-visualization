@@ -87,12 +87,14 @@ function getPieChartData() {
                 }
             }
             if (myCount > 0) {
-                let a = [original[i],myCount];
+                let a = [];
+                a.push(original[i]);
+                a.push(myCount); 
                 compressed.push(a);
+                console.log(a);
             }
         }
+        
         return compressed;
     };
-
-
     
