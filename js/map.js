@@ -58,14 +58,14 @@ function initializeMap(pieChartData) {
     const legendPieChart= ['keywords','frequency'];
     //var latLng = new google.maps.LatLng( 40.708762, -74.006731 );
     var AberdeenlatLng = new google.maps.LatLng( 57.375210, -2.108806 );
-    var AmsterdamlatLng = new google.maps.LatLng( 52.37, 4.8952 );
-    var HamburglatLng = new google.maps.LatLng( 53.55, 9.99 );
-    var AarhuslatLng = new google.maps.LatLng( 56.16, 10.20 );
-    var BradfordlatLng = new google.maps.LatLng( 53.796, 1.759 );
-    var BergenlatLng = new google.maps.LatLng( 60.391, 5.322 );
-    var GentlatLng = new google.maps.LatLng( 51.054, 3.7174 );
-    var DordrechtlatLng = new google.maps.LatLng( 51.813, 4.6901 );
-    var GothenburglatLng = new google.maps.LatLng( 57.7089, 11.9746 );
+    var AmsterdamlatLng = new google.maps.LatLng( 52.3702, 4.8952 );
+    var HamburglatLng = new google.maps.LatLng( 53.5511, 9.9937 );
+    var AarhuslatLng = new google.maps.LatLng( 56.1629, 10.2039 );
+    var BradfordlatLng = new google.maps.LatLng( 53.7960, 1.7594 );
+    var BergenlatLng = new google.maps.LatLng( 60.3913, 5.3221 );
+    var GentlatLng = new google.maps.LatLng( 51.0543, 3.7174 );
+    var DordrechtlatLng = new google.maps.LatLng( 51.8133, 4.6901 );
+    var GothenburglatLng = new google.maps.LatLng(57.7089, 11.9746 );
     
     let cityLatLng = {
         'Aberdeen': AberdeenlatLng, 
