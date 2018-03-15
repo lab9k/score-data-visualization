@@ -82,15 +82,13 @@ function initializeMap(pieChartData) {
     var maplatLng = new google.maps.LatLng( 54.227, 5.636 );
 
     var map = new google.maps.Map( $('#map_canvas')[0], {
-        zoom: 4,
+        zoom: 5.5,
         center: maplatLng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-
-
     
     var options = {
-        fontSize: 8,
+        fontSize: 20,
         backgroundColor: 'transparent',
         legend: 'none'
     };
