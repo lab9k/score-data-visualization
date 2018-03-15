@@ -38,6 +38,7 @@ function transformData(JSONdata) {
         'Gothenburg': [],
         'Hamburg': []
     };
+    var pieChartData = {};
     
     cities.forEach(city => {
         JSONdata.forEach(challenge => {
@@ -50,12 +51,10 @@ function transformData(JSONdata) {
         })
     });
 
-    cities.forEach(city => {
-        
-    })  
-
-    //count doubles + build up JSON object
-    console.log(compressArray(cityKeywords['Gent']));
+    cities.forEach(city => { pieChartData[city] = compressArray(cityKeywords[city]); })  
+    
+    console.log(pieChartData);
+    return pieChartData;
 }
     
 
@@ -68,17 +67,15 @@ function initializeMap(pieChartData) {
 
 
 function compressArray(original) {
-
-	var compressed = [];
+	let compressed = [];
 	// make a copy of the input array
-	var copy = original.slice(0);
- 
+	let copy = original.slice(0);
 	// first loop goes over every element
-	for (var i = 0; i < original.length; i++) {
+	for (let i = 0; i < original.length; i++) {
  
-		var myCount = 0;	
+		let myCount = 0;	
 		// loop over every element in the copy and see if it's the same
-		for (var w = 0; w < copy.length; w++) {
+		for (let w = 0; w < copy.length; w++) {
 			if (original[i] == copy[w]) {
 				// increase amount of times duplicate is found
 				myCount++;
@@ -86,50 +83,12 @@ function compressArray(original) {
 				delete copy[w];
 			}
 		}
- 
 		if (myCount > 0) {
-			var a = new Object();
+			let a = new Object();
 			a.value = original[i];
 			a.count = myCount;
 			compressed.push(a);
 		}
 	}
- 
 	return compressed;
 };
-
-// It should go something like this:
-
-var testArray = new Array("dog", "dog", "cat", "buffalo", "wolf", "cat", "tiger", "cat");
-var newArray = compressArray(testArray);
-
- 
-/*
-console: [
-	Object { value="dog", count=2}, 
-	Object { value="cat", count=3}, 
-	Object { value="buffalo", count=1}, 
-	Object { value="wolf", count=1}, 
-	Object { value="tiger", count=1}
-]
-*/
-/*
-    var keywords = {
-        "gent": {
-            "keyword 1": 5,
-            "keyword 2": 7,
-            "keyword 3": 5
-        },
-        "amsterdam": {
-            "keyword 1": 5,
-            "keyword 2": 7,
-            "keyword 3": 5
-        }
-    } */
-
- /*    var participating_cities = {
-        gent: ['item1','item1','item2'],
-        amsterdam: ['item3','item3','item1'],
-        bradford: [],
-        gothenburg: []
-    }; */
