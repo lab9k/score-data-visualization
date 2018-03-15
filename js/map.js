@@ -57,7 +57,7 @@ ChartMarker.prototype.draw = function() {
 function initializeMap(pieChartData) {
     const legendPieChart= ['keywords','frequency'];
     //var latLng = new google.maps.LatLng( 40.708762, -74.006731 );
-    var AberdeenlatLng = new google.maps.LatLng( 57.1497, 2.09 );
+    var AberdeenlatLng = new google.maps.LatLng( 57.375210, -2.108806 );
     var AmsterdamlatLng = new google.maps.LatLng( 52.37, 4.8952 );
     var HamburglatLng = new google.maps.LatLng( 53.55, 9.99 );
     var AarhuslatLng = new google.maps.LatLng( 56.16, 10.20 );
