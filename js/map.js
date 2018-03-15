@@ -66,10 +66,20 @@ function initializeMap(pieChartData) {
     var GentlatLng = new google.maps.LatLng( 51.054, 3.7174 );
     var DordrechtlatLng = new google.maps.LatLng( 51.813, 4.6901 );
     var GothenburglatLng = new google.maps.LatLng( 57.7089, 11.9746 );
+    
+    let cityLatLng = {
+        'Aberdeen': AberdeenlatLng, 
+        'Amsterdam':AmsterdamlatLng, 
+        'Hamburg': HamburglatLng, 
+        'Aarhus': AarhuslatLng, 
+        'Bradford':BradfordlatLng, 
+        'Bergen':BergenlatLng, 
+        'Gent':GentlatLng,
+        'Dordrecht':DordrechtlatLng, 
+        'Gothenburg':GothenburglatLng
+    };
 
     var maplatLng = new google.maps.LatLng( 54.227, 5.636 );
-
-
 
     var map = new google.maps.Map( $('#map_canvas')[0], {
         zoom: 4,
@@ -77,9 +87,7 @@ function initializeMap(pieChartData) {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
-    for(let city in pieChartData) {
-        console.log(pieChartData[city]);
-    }
+
     
     var options = {
         fontSize: 8,
@@ -95,7 +103,7 @@ function initializeMap(pieChartData) {
 
         var marker = new ChartMarker({
             map: map,
-            position: AberdeenlatLng,
+            position: cityLatLng[city],
             width: h,
             height: h,
             chartData: dataTableVisualization,
@@ -106,7 +114,7 @@ function initializeMap(pieChartData) {
                 }
             }
         }); 
-        console.log(city);
+        //console.log(city);
     }
 
 };
