@@ -54,7 +54,7 @@ ChartMarker.prototype.draw = function() {
     this.chart.draw( this.get('chartData'), this.get('chartOptions') );
 };
 
-function initializeMap() {
+function initializeMap(pieChartData) {
     //var latLng = new google.maps.LatLng( 40.708762, -74.006731 );
     var AberdeenlatLng = new google.maps.LatLng( 57.1497, 2.09 );
     var AmsterdamlatLng = new google.maps.LatLng( 52.37, 4.8952 );
@@ -66,7 +66,6 @@ function initializeMap() {
     var DordrechtlatLng = new google.maps.LatLng( 51.813, 4.6901 );
     var GothenburglatLng = new google.maps.LatLng( 57.7089, 11.9746 );
 
-
     var maplatLng = new google.maps.LatLng( 54.227, 5.636 );
 
 
@@ -76,6 +75,71 @@ function initializeMap() {
         center: maplatLng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
+
+    //pieChartData
+    //per stad keywords and count in juiste formaat
+/*     //curr format
+    {
+        gent: [ 
+                {
+                    value:"waste",
+                    count: 2
+                },
+                {
+                    value:"waste",
+                    count: 2
+                }
+            ]
+        aberdeen: [
+            {
+                value:"waste",
+                count: 2
+            },
+            {
+                value:"waste",
+                count: 2
+            }
+        ]
+    } */
+ 
+    //console.log(pieChartData);
+
+
+
+    // key: [[],[],[]]
+
+/* 
+    arr = [
+        gent: [
+            ["keyword",2],
+            ["keyword",2]
+        ],
+        amsterdam: [
+            ["keyword",2],
+            ["keyword",2]
+        ]
+    ]
+
+    let legendePieChart = ['keywors','frequency'];
+    arr.forEach(element => {
+        var marker = new ChartMarker({
+            map: map,
+            position: AberdeenlatLng,
+            width: h,
+            height: h,
+            chartData: data,
+            chartOptions: options,
+            events: {
+                click: function( event ) {
+                    alert( 'Clicked marker' );
+                }
+            }
+        });
+    }); */
+
+
+     
+    
 
     var data = google.visualization.arrayToDataTable([
         [ 'Task', 'Hours per Day' ],
@@ -198,5 +262,3 @@ function initializeMap() {
         }
     });
 };
-
-$(initializeMap);
