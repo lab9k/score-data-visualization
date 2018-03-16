@@ -61,7 +61,7 @@ function initializeMap(pieChartData) {
     var AmsterdamlatLng = new google.maps.LatLng( 52.3702, 4.8952 );
     var HamburglatLng = new google.maps.LatLng( 53.5511, 9.9937 );
     var AarhuslatLng = new google.maps.LatLng( 56.1629, 10.2039 );
-    var BradfordlatLng = new google.maps.LatLng( 53.7960, 1.7594 );
+    var BradfordlatLng = new google.maps.LatLng( 53.7970776,-1.8244 );
     var BergenlatLng = new google.maps.LatLng( 60.3913, 5.3221 );
     var GentlatLng = new google.maps.LatLng( 51.0543, 3.7174 );
     var DordrechtlatLng = new google.maps.LatLng( 51.8133, 4.6901 );
@@ -86,33 +86,52 @@ function initializeMap(pieChartData) {
         center: maplatLng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
-    
-    var options = {
-        fontSize: 20,
-        backgroundColor: 'transparent',
-        legend: 'none'
-    };
+
     var h ='200px'
+
+    var options = {
+        fontSize: 12,
+        title: 'Score keywords'
+    };
+
+    
 
     for(let city in pieChartData) {
         let cityData = pieChartData[city];
         cityData.splice(0,0,legendPieChart);  
         let dataTableVisualization = google.visualization.arrayToDataTable(cityData);
 
-        var marker = new ChartMarker({
+        var marker = new google.maps.Marker({
             map: map,
-            position: cityLatLng[city],
-            width: h,
-            height: h,
-            chartData: dataTableVisualization,
-            chartOptions: options,
+            position: cityLatLng[city],           
             events: {
-                click: function( event ) {
+                /* click: function( event ) {
                     alert( 'Clicked marker' );
-                }
+                } */
             }
         }); 
-        //console.log(city);
+        console.log(city);
+        var infowindow =  new google.maps.InfoWindow({
+            content: city,
+            map: map
+        });
+
+        
+        google.maps.event.addListener(marker, 'click', function() {
+            drawChart(this,dataTableVisualization,options);
+        });
     }
 
 };
+
+function drawChart(marker,dataTableVisualization,options) {
+
+    var node        = document.createElement('div'),
+        infoWindow  = new google.maps.InfoWindow(),
+        chart       = new google.visualization.PieChart(node);
+
+        chart.draw(dataTableVisualization, options);
+        infoWindow.setContent(node);
+        infoWindow.open(marker.getMap(),marker);
+  }
+

@@ -66,7 +66,7 @@ function transformData(JSONdata) {
 
     cities.forEach(city => {
         //console.log(typeof cityKeywords[city]);
-        console.log(compressArray(cityKeywords[city]));
+        //console.log(compressArray(cityKeywords[city]));
         pieChartData[city] = compressArray(cityKeywords[city]);
     })
 
@@ -93,7 +93,6 @@ function compressArray(original) {
             let a = [];
             a.push(original[i]);
             a.push(myCount);
-            //console.log(a);
             compressed.push(a);
         }
     }
